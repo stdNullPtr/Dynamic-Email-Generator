@@ -1,5 +1,5 @@
 # TODO agree on a stable version
-FROM eclipse-temurin:21.0.3_9-jre
+FROM eclipse-temurin:latest
 
 VOLUME /tmp
 

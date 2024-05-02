@@ -11,7 +11,7 @@ services:
       - service-network
 
   nginx:
-    image: nginx:latest #TODO choose a stable version
+    image: nginx:latest
     ports:
       - "9443:443"
     volumes:
