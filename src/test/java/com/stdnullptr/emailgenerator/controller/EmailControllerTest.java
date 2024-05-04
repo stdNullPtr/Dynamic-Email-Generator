@@ -1,6 +1,7 @@
 package com.stdnullptr.emailgenerator.controller;
 
 import com.stdnullptr.emailgenerator.exception.GlobalExceptionHandler;
+import com.stdnullptr.emailgenerator.exception.InvalidArgumentException;
 import com.stdnullptr.emailgenerator.service.EmailGeneratorService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
+
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 @ContextConfiguration(classes = {EmailController.class, EmailGeneratorService.class, GlobalExceptionHandler.class})
 @ExtendWith(SpringExtension.class)
@@ -57,7 +61,9 @@ class EmailControllerTest {
 
         ResultActions actualPerformResult = controllerMockMvc.perform(requestBuilder);
 
-        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()));
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(result -> assertInstanceOf(HandlerMethodValidationException.class, result.getResolvedException()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Invalid request argument(s): {queryParams=[Query parameters cannot be empty, Query parameters must contain at least 1 input parameter and 1 'expression' parameter]}"));
     }
 
     /**
@@ -76,7 +82,9 @@ class EmailControllerTest {
 
         ResultActions actualPerformResult = controllerMockMvc.perform(requestBuilder);
 
-        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()));
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(result -> assertInstanceOf(InvalidArgumentException.class, result.getResolvedException()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The 'expression' query parameter is required."));
     }
 
     /**
@@ -93,6 +101,29 @@ class EmailControllerTest {
 
         ResultActions actualPerformResult = controllerMockMvc.perform(requestBuilder);
 
-        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()));
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(result -> assertInstanceOf(HandlerMethodValidationException.class, result.getResolvedException()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Invalid request argument(s): {queryParams=[Query parameters must contain at least 1 input parameter and 1 'expression' parameter]}"));
+    }
+
+    /**
+     * Method being tested: {@link EmailController#generateEmails(MultiValueMap)}
+     */
+    @Test
+    void testGenerateEmails_invalidInputNameQueryParam_shouldReturnBadRequest() throws Exception {
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("str1", "Millennium");
+        queryParams.add("expression", "anyExpr");
+        queryParams.add("invalid2", "lol");
+
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/app/v1/email/generate")
+                .queryParams(queryParams);
+
+        ResultActions actualPerformResult = controllerMockMvc.perform(requestBuilder);
+
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()))
+                .andExpect(result -> assertInstanceOf(InvalidArgumentException.class, result.getResolvedException()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("The only allowed input prefix is 'strN'."));
     }
 }

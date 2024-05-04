@@ -39,6 +39,9 @@ public class EmailController extends EmailApi {
         if (expressionList.size() > 1) {
             throw new InvalidArgumentException("Multiple 'expression' query parameters are not allowed.");
         }
+        if (queryParams.keySet().stream().anyMatch(key -> !key.startsWith("str"))) {
+            throw new InvalidArgumentException("The only allowed input prefix is 'strN'.");
+        }
         String expression = expressionList.getFirst().trim();
         if (expression.isEmpty()) {
             throw new InvalidArgumentException("The 'expression' parameter cannot be empty.");
