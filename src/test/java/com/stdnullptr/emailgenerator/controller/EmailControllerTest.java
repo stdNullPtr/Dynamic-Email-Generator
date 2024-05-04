@@ -28,7 +28,7 @@ class EmailControllerTest {
 
     private MockMvc controllerMockMvc;
 
-    private AutoCloseable closeable;
+    private AutoCloseable mocksCloseable;
 
     @Autowired
     private EmailController emailController;
@@ -38,13 +38,13 @@ class EmailControllerTest {
 
     @BeforeEach
     void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+        mocksCloseable = MockitoAnnotations.openMocks(this);
         controllerMockMvc = MockMvcBuilders.standaloneSetup(emailController).setControllerAdvice(globalExceptionHandler).build();
     }
 
     @AfterEach
     void tearDown() throws Exception {
-        closeable.close();
+        mocksCloseable.close();
     }
 
     /**
