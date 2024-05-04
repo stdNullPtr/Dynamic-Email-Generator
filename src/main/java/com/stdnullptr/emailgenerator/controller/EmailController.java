@@ -3,7 +3,6 @@ package com.stdnullptr.emailgenerator.controller;
 import com.stdnullptr.emailgenerator.exception.InvalidArgumentException;
 import com.stdnullptr.emailgenerator.model.response.ApiResponse;
 import com.stdnullptr.emailgenerator.service.EmailGeneratorService;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -26,7 +25,6 @@ public class EmailController extends EmailApi {
     @GetMapping(value = "/generate", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ApiResponse<?>> generateEmails(
             @RequestParam
-            @NotEmpty(message = ERROR_QUERY_EMPTY)
             @Size(min = 2, message = ERROR_QUERY_SIZE)
             MultiValueMap<String, String> queryParams) {
 

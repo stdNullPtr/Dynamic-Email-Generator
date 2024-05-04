@@ -63,7 +63,7 @@ class EmailControllerTest {
 
         actualPerformResult.andExpect(MockMvcResultMatchers.status().is(HttpStatus.BAD_REQUEST.value()))
                 .andExpect(result -> assertInstanceOf(HandlerMethodValidationException.class, result.getResolvedException()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Invalid request argument(s): {queryParams=[Query parameters cannot be empty, Query parameters must contain at least 1 input parameter and 1 'expression' parameter]}"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("Invalid request argument(s): {queryParams=[Query parameters must contain at least 1 input parameter and 1 'expression' parameter]}"));
     }
 
     /**
