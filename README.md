@@ -7,8 +7,8 @@ The Dynamic Email Generator is a service designed to create customized email add
 - Java 21
 - Spring Boot 3
 - Spring Security (TODO)
-- Nginx (TODO)
-- Docker (TODO)
+- Nginx
+- Docker
 
 ## Setup Instructions
 Note: The following instructions were tested written on a _Windows 10_ system
@@ -32,6 +32,56 @@ After installing Docker:
 
 This will build the new service Docker image described in the [Dockerfile]() and pull and run the Nginx image
 
-(TODO)
+### (TODO)
 ## Custom Expression Language
 (TODO language rules)
+
+## API Endpoints
+
+### Generate Emails
+
+**Endpoint**: `GET /app/v1/email/generate`
+
+This endpoint dynamically generates email addresses based on a Custom Expression Language and a set of input parameters.
+It's designed to process complex rules defined in the expression parameter and apply them to the inputs provided.
+
+#### Request Query Parameters:
+
+- **expression** (required): A string parameter defining the rules for generating emails. It must be a single, non-empty string. (TODO rules)
+- **strN**: Additional parameters with keys starting with `str` followed by any number (e.g., `str1=test`, `str2=string`). These parameters are used as inputs for the `expression` defined.
+
+#### Responses:
+- **200 OK**:
+    - **Content-Type**: `application/json`
+    - **Body**: An `ApiResponse` object containing a list of generated emails.
+    - **Example**:
+      ```json
+      {
+        "data": ["example1@domain.com", "example2@domain.com"],
+        "message": null
+      }
+      ```
+
+- **400 Bad Request**:
+    - Occurs when:
+        - The `expression` parameter is missing, empty, or multiple expressions are provided.
+        - Any parameter key does not start with `str`.
+    - **Content-Type**: `application/json`
+    - **Body**: An `ApiResponse` object containing an error message.
+    - **Example**:
+      ```json
+      {
+        "data": null,
+        "message": "Invalid input parameters. Ensure your request includes a valid 'expression' and all parameter keys start with 'str'."
+      }
+      ```
+#### Usage Notes:
+
+- The endpoint strictly requires at least two query parameters: one `expression` and at least one input parameter prefixed with `str`. This ensures that there is at least one rule and one input to apply the rule to.
+- The endpoint is designed to be robust against invalid input formats and will provide descriptive error messages to assist in correcting request formats.
+
+#### Sample Request:
+
+```bash
+curl -X GET "https://<host>:<port>/app/v1/email/generate?expression=unique_expression&str1=value1&str2=value2" \
+     -H "Accept: application/json"
