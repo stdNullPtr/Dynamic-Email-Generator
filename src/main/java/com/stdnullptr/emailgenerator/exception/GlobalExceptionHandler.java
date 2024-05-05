@@ -42,6 +42,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InterpreterException.class)
+    public ResponseEntity<ApiResponse<String>> handleInterpreterExceptionExceptions(InterpreterException ex) {
+        log.error("Error while interpreting expression", ex);
+        ApiResponse<String> response = ApiResponse.error(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     // Wrap all unhandled exceptions, prevent internal information leakage to responses, like stack traces
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<String>> handleAllExceptions(Exception ex) {
