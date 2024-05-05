@@ -3,24 +3,23 @@ package com.stdnullptr.emailgenerator.service.interpreter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.EnumSet;
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum Operations {
+enum Operations {
     FIRST("first"),
     LAST("last"),
     SUBSTR("substr"),
     LIT("lit"),
-    RAW("raw");
-
-    private static final EnumSet<Operations> stringOperations =
-            EnumSet.of(FIRST, LAST, SUBSTR, LIT, RAW);
+    RAW("raw"),
+    EQ("eq"),
+    LONGER("longer");
 
     private final String operationName;
 
-    public static boolean isStringExpression(String expr) {
-        return stringOperations.stream().anyMatch(op -> expr.startsWith(op.toString()));
+    public static boolean isOperation(String operationName) {
+        return Arrays.stream(Operations.values()).anyMatch(op -> operationName.startsWith(op.toString()));
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.stdnullptr.emailgenerator.exception.InterpreterException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class LiteralExpression implements Expression<String> {
+class LiteralExpression implements Expression {
     private final String inputKey;
 
     @Override

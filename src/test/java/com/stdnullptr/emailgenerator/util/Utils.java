@@ -62,9 +62,21 @@ public final class Utils {
                         add("str1", "Millennium");
                         add("expression", "unknown(str1)");
                     }}),
-                    createErrorTestEntry("Failed to parse expression", new LinkedMultiValueMap<>() {{
+                    createErrorTestEntry("Expression has no parameters", new LinkedMultiValueMap<>() {{
                         add("str1", "Millennium");
                         add("expression", "first()");
+                    }}),
+                    createErrorTestEntry("Expression must start with an operation name and follow with parameters in parentheses.", new LinkedMultiValueMap<>() {{
+                        add("str1", "Millennium");
+                        add("expression", "first(");
+                    }}),
+                    createErrorTestEntry("Expression must start with an operation name and follow with parameters in parentheses.", new LinkedMultiValueMap<>() {{
+                        add("str1", "Millennium");
+                        add("expression", "first(str1, Millennium");
+                    }}),
+                    createErrorTestEntry("Expression must start with an operation name and follow with parameters in parentheses.", new LinkedMultiValueMap<>() {{
+                        add("str1", "Millennium");
+                        add("expression", "first)");
                     }}),
                     createErrorTestEntry("Input value is null for input key: str2", new LinkedMultiValueMap<>() {{
                         add("str1", "Millennium");

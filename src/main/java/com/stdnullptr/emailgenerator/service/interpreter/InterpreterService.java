@@ -13,8 +13,8 @@ public class InterpreterService {
         String[] expressions = Stream.of(fullExpressionString.split(";")).map(String::trim).toArray(String[]::new);
 
         for (String expression : expressions) {
-            if (Operations.isStringExpression(expression)) {
-                Expression<String> exp = ExpressionFactory.createExpression(expression);
+            if (Operations.isOperation(expression)) {
+                Expression exp = ExpressionFactory.createExpression(expression);
                 result.append(exp.interpret(context));
             } else {
                 throw new InterpreterException("Unknown expression: " + expression);

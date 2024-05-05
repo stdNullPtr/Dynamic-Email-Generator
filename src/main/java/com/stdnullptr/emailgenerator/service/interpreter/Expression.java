@@ -1,5 +1,5 @@
 package com.stdnullptr.emailgenerator.service.interpreter;
 
-interface Expression<T> {
-    T interpret(Context ctx);
+interface Expression {
+    String interpret(Context ctx);
 }
