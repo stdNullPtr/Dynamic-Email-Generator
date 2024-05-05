@@ -4,7 +4,7 @@ import com.stdnullptr.emailgenerator.exception.InterpreterException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class SubstringExpression implements Expression<String> {
+class SubstringExpression implements Expression {
     private final String inputKey;
     private final int startIndex;
     private final int endIndex;

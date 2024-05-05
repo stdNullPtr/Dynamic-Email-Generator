@@ -4,7 +4,7 @@ import com.stdnullptr.emailgenerator.exception.InterpreterException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class FirstCharsExpression implements Expression<String> {
+class FirstCharsExpression implements Expression {
     private final String inputKey;
     private final int numCharacters;
 

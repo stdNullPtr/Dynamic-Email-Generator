@@ -3,7 +3,7 @@ package com.stdnullptr.emailgenerator.service.interpreter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class RawExpression implements Expression<String> {
+class RawExpression implements Expression {
     private final String value;
 
     @Override
