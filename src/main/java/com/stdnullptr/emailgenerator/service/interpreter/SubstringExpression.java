@@ -12,12 +12,13 @@ class SubstringExpression implements Expression<String> {
     @Override
     public String interpret(Context ctx) {
         String input = ctx.getValue(inputKey);
+
         if (input == null) {
             throw new InterpreterException("Input value is null for input key: " + inputKey);
         }
 
         if (startIndex < 0 || startIndex > input.length()) {
-            throw new InterpreterException("Start index out of bounds: " + startIndex);
+            throw new InterpreterException("Start index out of bounds for substring expression, index: " + startIndex);
         }
 
         int safeEndIndex = Math.min(endIndex, input.length());

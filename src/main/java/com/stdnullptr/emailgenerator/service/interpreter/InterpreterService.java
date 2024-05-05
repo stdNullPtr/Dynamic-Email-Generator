@@ -1,11 +1,14 @@
 package com.stdnullptr.emailgenerator.service.interpreter;
 
 import com.stdnullptr.emailgenerator.exception.InterpreterException;
+import org.springframework.stereotype.Service;
 
 import java.util.stream.Stream;
 
-public class Interpreter {
-    public static String evaluate(String fullExpressionString, Context context) {
+@Service
+public class InterpreterService {
+
+    public String evaluate(String fullExpressionString, Context context) {
         StringBuilder result = new StringBuilder();
         String[] expressions = Stream.of(fullExpressionString.split(";")).map(String::trim).toArray(String[]::new);
 

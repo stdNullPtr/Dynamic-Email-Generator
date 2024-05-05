@@ -2,7 +2,8 @@ package com.stdnullptr.emailgenerator.service;
 
 import com.stdnullptr.emailgenerator.exception.InvalidArgumentException;
 import com.stdnullptr.emailgenerator.service.interpreter.Context;
-import com.stdnullptr.emailgenerator.service.interpreter.Interpreter;
+import com.stdnullptr.emailgenerator.service.interpreter.InterpreterService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -14,7 +15,10 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EmailGeneratorService {
+    private final InterpreterService interpreterService;
+
     public List<String> generateEmails(MultiValueMap<String, String> inputs) {
         log.info("Generating emails for input {}", inputs);
 
@@ -26,6 +30,9 @@ public class EmailGeneratorService {
         }
         if (expressionList.size() > 1) {
             throw new InvalidArgumentException("Multiple 'expression' strings are not allowed.");
+        }
+        if (inputs.isEmpty()) {
+            throw new InvalidArgumentException("At least one input is required.");
         }
         if (inputs.keySet().stream().anyMatch(key -> !key.startsWith("str"))) {
             throw new InvalidArgumentException("The only allowed input prefix is 'str' followed by a number.");
@@ -44,13 +51,8 @@ public class EmailGeneratorService {
         List<Context> allContexts = prepareContexts(inputs);
 
         for (Context context : allContexts) {
-            try {
-                String evaluatedExpression = Interpreter.evaluate(expression, context);
-                results.add(evaluatedExpression);
-            } catch (Exception e) {
-                log.error("Error evaluating expression for context {}: {}", context, e.getMessage(), e);
-                throw new InvalidArgumentException("Failed to evaluate the expression: " + e.getMessage());
-            }
+            String evaluatedExpression = interpreterService.evaluate(expression, context);
+            results.add(evaluatedExpression);
         }
 
         return results;

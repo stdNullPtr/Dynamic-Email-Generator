@@ -1,5 +1,6 @@
 package com.stdnullptr.emailgenerator.service.interpreter;
 
+import com.stdnullptr.emailgenerator.exception.InterpreterException;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -8,6 +9,10 @@ class LiteralExpression implements Expression<String> {
 
     @Override
     public String interpret(Context ctx) {
-        return ctx.getValue(inputKey);
+        String value = ctx.getValue(inputKey);
+        if (value == null) {
+            throw new InterpreterException("Input value is null for input key: " + inputKey);
+        }
+        return value;
     }
 }
