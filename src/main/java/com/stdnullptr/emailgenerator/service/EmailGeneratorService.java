@@ -60,7 +60,7 @@ public class EmailGeneratorService {
         List<Context> contexts = new ArrayList<>();
 
         List<HashMap<String, String>> results = new ArrayList<>();
-        recurseCombinations(new ArrayList<>(inputs.keySet()), new HashMap<>(), inputs, results, 0);
+        recursiveFlattenMultiValueMap(new ArrayList<>(inputs.keySet()), new HashMap<>(), inputs, results, 0);
 
         results.forEach(c -> contexts.add(new Context(c)));
 
@@ -70,17 +70,17 @@ public class EmailGeneratorService {
     /***
      * TODO Potential issues with recursion, but it is way cleaner than iterative approach
      */
-    private static void recurseCombinations(List<String> keys, HashMap<String, String> current, MultiValueMap<String, String> multiValueMap, List<HashMap<String, String>> results, int depth) {
+    private static void recursiveFlattenMultiValueMap(List<String> keys, HashMap<String, String> current, MultiValueMap<String, String> originalInputs, List<HashMap<String, String>> results, int depth) {
         if (depth == keys.size()) {
             results.add(new HashMap<>(current));
             return;
         }
 
         String key = keys.get(depth);
-        Collection<String> values = multiValueMap.get(key);
+        Collection<String> values = originalInputs.get(key);
         for (String value : values) {
             current.put(key, value);
-            recurseCombinations(keys, current, multiValueMap, results, depth + 1);
+            recursiveFlattenMultiValueMap(keys, current, originalInputs, results, depth + 1);
         }
         current.remove(key);
     }
