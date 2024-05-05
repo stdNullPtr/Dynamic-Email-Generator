@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ContextConfiguration(classes = {HomeController.class})
 @ExtendWith(SpringExtension.class)
-class HomeControllerTest {
+class HomeControllerIT {
     @Autowired
     private HomeController homeController;
 
