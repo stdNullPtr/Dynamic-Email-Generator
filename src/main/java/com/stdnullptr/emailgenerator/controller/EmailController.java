@@ -18,18 +18,18 @@ import java.util.List;
 @RequestMapping("/app/v1/email")
 @RequiredArgsConstructor
 public class EmailController extends EmailApi {
-    private final EmailGeneratorService service;
+	private final EmailGeneratorService service;
 
-    @Override
-    @GetMapping(value = "/generate", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ApiResponse<?>> generateEmails(
-            @RequestParam
-            @NotEmpty(message = ERROR_QUERY_EMPTY)
-            MultiValueMap<String, String> queryParams) {
+	@Override
+	@GetMapping(value = "/generate", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ApiResponse<?>> generateEmails(
+			@RequestParam
+			@NotEmpty(message = ERROR_QUERY_EMPTY)
+			MultiValueMap<String, String> queryParams) {
 
-        List<String> generatedEmails = service.generateEmails(queryParams);
+		List<String> generatedEmails = service.generateEmails(queryParams);
 
-        ApiResponse<?> response = ApiResponse.success(generatedEmails);
-        return ResponseEntity.ok().body(response);
-    }
+		ApiResponse<?> response = ApiResponse.success(generatedEmails);
+		return ResponseEntity.ok().body(response);
+	}
 }
