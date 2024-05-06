@@ -1,0 +1,747 @@
+{
+	"info": {
+		"_postman_id": "b9fa8722-837b-4387-bdc5-3e4a47d3d73a",
+		"name": "Dynamic Email Generator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17375127"
+	},
+	"item": [
+		{
+			"name": "app",
+			"item": [
+				{
+					"name": "v1",
+					"item": [
+						{
+							"name": "email",
+							"item": [
+								{
+									"name": "generate",
+									"item": [
+										{
+											"name": "Generate email addresses using custom expressions",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/app/v1/email/generate?expression=first(str1,1);last(str1,1);substr(str1, 2, 3);longer(lit(str1),lit(str2),lit(str3));raw(.);lit(str2);raw(@);first(str3, 3);eq(lit(str1),lit(str2),lit(str3));last(str2, 3);raw(.);lit(str4)&str1=Ivan&str1=Petar&str1=Radooo&str1=Ivo&str2=Millenium&str2=Falcon&str3=gmail&str3=yahoo&str4=com&str4=bg",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"app",
+														"v1",
+														"email",
+														"generate"
+													],
+													"query": [
+														{
+															"key": "expression",
+															"value": "first(str1,1);last(str1,1);substr(str1, 2, 3);longer(lit(str1),lit(str2),lit(str3));raw(.);lit(str2);raw(@);first(str3, 3);eq(lit(str1),lit(str2),lit(str3));last(str2, 3);raw(.);lit(str4)"
+														},
+														{
+															"key": "str1",
+															"value": "Ivan"
+														},
+														{
+															"key": "str1",
+															"value": "Petar"
+														},
+														{
+															"key": "str1",
+															"value": "Radooo"
+														},
+														{
+															"key": "str1",
+															"value": "Ivo"
+														},
+														{
+															"key": "str2",
+															"value": "Millenium"
+														},
+														{
+															"key": "str2",
+															"value": "Falcon"
+														},
+														{
+															"key": "str3",
+															"value": "gmail"
+														},
+														{
+															"key": "str3",
+															"value": "yahoo"
+														},
+														{
+															"key": "str4",
+															"value": "com"
+														},
+														{
+															"key": "str4",
+															"value": "bg"
+														}
+													]
+												}
+											},
+											"response": [
+												{
+													"name": "OK - Complex Expression",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate?expression=first(str1,1);raw(.);lit(str2);raw(@);first(str3, 3);last(str2, 3);raw(.);lit(str4)&str1=Ivan&str1=Petar&str1=Radooo&str1=Ivo&str2=Millenium&str2=Falcon&str3=gmail&str3=yahoo&str4=com&str4=bg",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															],
+															"query": [
+																{
+																	"key": "expression",
+																	"value": "first(str1,1);raw(.);lit(str2);raw(@);first(str3, 3);last(str2, 3);raw(.);lit(str4)"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivan"
+																},
+																{
+																	"key": "str1",
+																	"value": "Petar"
+																},
+																{
+																	"key": "str1",
+																	"value": "Radooo"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivo"
+																},
+																{
+																	"key": "str2",
+																	"value": "Millenium"
+																},
+																{
+																	"key": "str2",
+																	"value": "Falcon"
+																},
+																{
+																	"key": "str3",
+																	"value": "gmail"
+																},
+																{
+																	"key": "str3",
+																	"value": "yahoo"
+																},
+																{
+																	"key": "str4",
+																	"value": "com"
+																},
+																{
+																	"key": "str4",
+																	"value": "bg"
+																}
+															]
+														}
+													},
+													"_postman_previewlanguage": null,
+													"header": null,
+													"cookie": [],
+													"body": null
+												},
+												{
+													"name": "OK - Simple Expression",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate?expression=first(str1,1);raw(.);lit(str2);raw(@gmail.com)&str1=Ivan&str2=Petrov&str2=Ivanov",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															],
+															"query": [
+																{
+																	"key": "expression",
+																	"value": "first(str1,1);raw(.);lit(str2);raw(@gmail.com)"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivan"
+																},
+																{
+																	"key": "str2",
+																	"value": "Petrov"
+																},
+																{
+																	"key": "str2",
+																	"value": "Ivanov"
+																}
+															]
+														}
+													},
+													"_postman_previewlanguage": null,
+													"header": null,
+													"cookie": [],
+													"body": null
+												},
+												{
+													"name": "OK - Complex Conditional Expression",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate?expression=eq(first(str1, 2),raw(Iv),lit(str2));first(str1,1);raw(.);lit(str2);raw(@);first(str3, 3);last(str2, 3);raw(.);lit(str4)&str1=Ivan&str1=Petar&str1=Radooo&str1=Ivo&str2=Millenium&str2=Falcon&str3=gmail&str3=yahoo&str4=com&str4=bg",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															],
+															"query": [
+																{
+																	"key": "expression",
+																	"value": "eq(first(str1, 2),raw(Iv),lit(str2));first(str1,1);raw(.);lit(str2);raw(@);first(str3, 3);last(str2, 3);raw(.);lit(str4)"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivan"
+																},
+																{
+																	"key": "str1",
+																	"value": "Petar"
+																},
+																{
+																	"key": "str1",
+																	"value": "Radooo"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivo"
+																},
+																{
+																	"key": "str2",
+																	"value": "Millenium"
+																},
+																{
+																	"key": "str2",
+																	"value": "Falcon"
+																},
+																{
+																	"key": "str3",
+																	"value": "gmail"
+																},
+																{
+																	"key": "str3",
+																	"value": "yahoo"
+																},
+																{
+																	"key": "str4",
+																	"value": "com"
+																},
+																{
+																	"key": "str4",
+																	"value": "bg"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Server",
+															"value": "nginx/1.25.5"
+														},
+														{
+															"key": "Date",
+															"value": "Mon, 06 May 2024 18:01:29 GMT"
+														},
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														},
+														{
+															"key": "Transfer-Encoding",
+															"value": "chunked"
+														},
+														{
+															"key": "Connection",
+															"value": "keep-alive"
+														},
+														{
+															"key": "Strict-Transport-Security",
+															"value": "max-age=31536000; includeSubDomains"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"data\": [\n        \"MilleniumI.Millenium@gmaium.com\",\n        \"MilleniumI.Millenium@gmaium.bg\",\n        \"MilleniumI.Millenium@yahium.com\",\n        \"MilleniumI.Millenium@yahium.bg\",\n        \"FalconI.Falcon@gmacon.com\",\n        \"FalconI.Falcon@gmacon.bg\",\n        \"FalconI.Falcon@yahcon.com\",\n        \"FalconI.Falcon@yahcon.bg\",\n        \"P.Millenium@gmaium.com\",\n        \"P.Millenium@gmaium.bg\",\n        \"P.Millenium@yahium.com\",\n        \"P.Millenium@yahium.bg\",\n        \"P.Falcon@gmacon.com\",\n        \"P.Falcon@gmacon.bg\",\n        \"P.Falcon@yahcon.com\",\n        \"P.Falcon@yahcon.bg\",\n        \"R.Millenium@gmaium.com\",\n        \"R.Millenium@gmaium.bg\",\n        \"R.Millenium@yahium.com\",\n        \"R.Millenium@yahium.bg\",\n        \"R.Falcon@gmacon.com\",\n        \"R.Falcon@gmacon.bg\",\n        \"R.Falcon@yahcon.com\",\n        \"R.Falcon@yahcon.bg\",\n        \"MilleniumI.Millenium@gmaium.com\",\n        \"MilleniumI.Millenium@gmaium.bg\",\n        \"MilleniumI.Millenium@yahium.com\",\n        \"MilleniumI.Millenium@yahium.bg\",\n        \"FalconI.Falcon@gmacon.com\",\n        \"FalconI.Falcon@gmacon.bg\",\n        \"FalconI.Falcon@yahcon.com\",\n        \"FalconI.Falcon@yahcon.bg\"\n    ],\n    \"message\": null\n}"
+												},
+												{
+													"name": "OK - Simple Conditional Expression",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate?expression=last(str1, 3);eq(first(str1, 2),raw(Iv),lit(str2));raw(@gmail.com)&str1=Ivan&str1=Petar&str1=Radooo&str1=Ivo&str2=Millenium&str2=Falcon",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															],
+															"query": [
+																{
+																	"key": "expression",
+																	"value": "last(str1, 3);eq(first(str1, 2),raw(Iv),lit(str2));raw(@gmail.com)"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivan"
+																},
+																{
+																	"key": "str1",
+																	"value": "Petar"
+																},
+																{
+																	"key": "str1",
+																	"value": "Radooo"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivo"
+																},
+																{
+																	"key": "str2",
+																	"value": "Millenium"
+																},
+																{
+																	"key": "str2",
+																	"value": "Falcon"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Server",
+															"value": "nginx/1.25.5"
+														},
+														{
+															"key": "Date",
+															"value": "Mon, 06 May 2024 18:04:19 GMT"
+														},
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														},
+														{
+															"key": "Transfer-Encoding",
+															"value": "chunked"
+														},
+														{
+															"key": "Connection",
+															"value": "keep-alive"
+														},
+														{
+															"key": "Strict-Transport-Security",
+															"value": "max-age=31536000; includeSubDomains"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"data\": [\n        \"vanMillenium@gmail.com\",\n        \"vanFalcon@gmail.com\",\n        \"tar@gmail.com\",\n        \"tar@gmail.com\",\n        \"ooo@gmail.com\",\n        \"ooo@gmail.com\",\n        \"IvoMillenium@gmail.com\",\n        \"IvoFalcon@gmail.com\"\n    ],\n    \"message\": null\n}"
+												},
+												{
+													"name": "OK - All expression functions",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate?expression=first(str1,1);last(str1,1);substr(str1, 2, 3);longer(lit(str1),lit(str2),lit(str3));raw(.);lit(str2);raw(@);first(str3, 3);eq(lit(str1),lit(str2),lit(str3));last(str2, 3);raw(.);lit(str4)&str1=Ivan&str1=Petar&str1=Radooo&str1=Ivo&str2=Millenium&str2=Falcon&str3=gmail&str3=yahoo&str4=com&str4=bg",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															],
+															"query": [
+																{
+																	"key": "expression",
+																	"value": "first(str1,1);last(str1,1);substr(str1, 2, 3);longer(lit(str1),lit(str2),lit(str3));raw(.);lit(str2);raw(@);first(str3, 3);eq(lit(str1),lit(str2),lit(str3));last(str2, 3);raw(.);lit(str4)"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivan"
+																},
+																{
+																	"key": "str1",
+																	"value": "Petar"
+																},
+																{
+																	"key": "str1",
+																	"value": "Radooo"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivo"
+																},
+																{
+																	"key": "str2",
+																	"value": "Millenium"
+																},
+																{
+																	"key": "str2",
+																	"value": "Falcon"
+																},
+																{
+																	"key": "str3",
+																	"value": "gmail"
+																},
+																{
+																	"key": "str3",
+																	"value": "yahoo"
+																},
+																{
+																	"key": "str4",
+																	"value": "com"
+																},
+																{
+																	"key": "str4",
+																	"value": "bg"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Server",
+															"value": "nginx/1.25.5"
+														},
+														{
+															"key": "Date",
+															"value": "Mon, 06 May 2024 18:47:47 GMT"
+														},
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														},
+														{
+															"key": "Transfer-Encoding",
+															"value": "chunked"
+														},
+														{
+															"key": "Connection",
+															"value": "keep-alive"
+														},
+														{
+															"key": "Strict-Transport-Security",
+															"value": "max-age=31536000; includeSubDomains"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"data\": [\n        \"Ina.Millenium@gmaium.com\",\n        \"Ina.Millenium@gmaium.bg\",\n        \"Ina.Millenium@yahium.com\",\n        \"Ina.Millenium@yahium.bg\",\n        \"Ina.Falcon@gmacon.com\",\n        \"Ina.Falcon@gmacon.bg\",\n        \"Ina.Falcon@yahcon.com\",\n        \"Ina.Falcon@yahcon.bg\",\n        \"Prt.Millenium@gmaium.com\",\n        \"Prt.Millenium@gmaium.bg\",\n        \"Prt.Millenium@yahium.com\",\n        \"Prt.Millenium@yahium.bg\",\n        \"Prt.Falcon@gmacon.com\",\n        \"Prt.Falcon@gmacon.bg\",\n        \"Prt.Falcon@yahcon.com\",\n        \"Prt.Falcon@yahcon.bg\",\n        \"Rod.Millenium@gmaium.com\",\n        \"Rod.Millenium@gmaium.bg\",\n        \"Rod.Millenium@yahium.com\",\n        \"Rod.Millenium@yahium.bg\",\n        \"Rod.Falcon@gmacon.com\",\n        \"Rod.Falcon@gmacon.bg\",\n        \"Rod.Falcon@yahcon.com\",\n        \"Rod.Falcon@yahcon.bg\",\n        \"Ioo.Millenium@gmaium.com\",\n        \"Ioo.Millenium@gmaium.bg\",\n        \"Ioo.Millenium@yahium.com\",\n        \"Ioo.Millenium@yahium.bg\",\n        \"Ioo.Falcon@gmacon.com\",\n        \"Ioo.Falcon@gmacon.bg\",\n        \"Ioo.Falcon@yahcon.com\",\n        \"Ioo.Falcon@yahcon.bg\"\n    ],\n    \"message\": null\n}"
+												},
+												{
+													"name": "Bad Request - No Inputs Provided",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate?expression=last(str1, 3);eq(first(str1, 2),raw(Iv),lit(str2));raw(@gmail.com)",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															],
+															"query": [
+																{
+																	"key": "expression",
+																	"value": "last(str1, 3);eq(first(str1, 2),raw(Iv),lit(str2));raw(@gmail.com)"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Server",
+															"value": "nginx/1.25.5"
+														},
+														{
+															"key": "Date",
+															"value": "Mon, 06 May 2024 18:05:48 GMT"
+														},
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														},
+														{
+															"key": "Transfer-Encoding",
+															"value": "chunked"
+														},
+														{
+															"key": "Connection",
+															"value": "keep-alive"
+														},
+														{
+															"key": "Strict-Transport-Security",
+															"value": "max-age=31536000; includeSubDomains"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"data\": null,\n    \"message\": \"At least one input is required.\"\n}"
+												},
+												{
+													"name": "Bad Request - No Expression Provided",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate?str1=Ivan&str1=Petar&str1=Radooo&str1=Ivo&str2=Millenium&str2=Falcon",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															],
+															"query": [
+																{
+																	"key": "str1",
+																	"value": "Ivan"
+																},
+																{
+																	"key": "str1",
+																	"value": "Petar"
+																},
+																{
+																	"key": "str1",
+																	"value": "Radooo"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivo"
+																},
+																{
+																	"key": "str2",
+																	"value": "Millenium"
+																},
+																{
+																	"key": "str2",
+																	"value": "Falcon"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Server",
+															"value": "nginx/1.25.5"
+														},
+														{
+															"key": "Date",
+															"value": "Mon, 06 May 2024 18:06:41 GMT"
+														},
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														},
+														{
+															"key": "Transfer-Encoding",
+															"value": "chunked"
+														},
+														{
+															"key": "Connection",
+															"value": "keep-alive"
+														},
+														{
+															"key": "Strict-Transport-Security",
+															"value": "max-age=31536000; includeSubDomains"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"data\": null,\n    \"message\": \"An 'expression' string is required.\"\n}"
+												},
+												{
+													"name": "Bad Request - No Query Params Provided",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Server",
+															"value": "nginx/1.25.5"
+														},
+														{
+															"key": "Date",
+															"value": "Mon, 06 May 2024 18:06:56 GMT"
+														},
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														},
+														{
+															"key": "Transfer-Encoding",
+															"value": "chunked"
+														},
+														{
+															"key": "Connection",
+															"value": "keep-alive"
+														},
+														{
+															"key": "Strict-Transport-Security",
+															"value": "max-age=31536000; includeSubDomains"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"data\": null,\n    \"message\": \"Invalid request argument(s): {queryParams=[Query parameters cannot be empty]}\"\n}"
+												},
+												{
+													"name": "Bad Request - Unknown Expression",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/app/v1/email/generate?expression=boom(str1, 3);eq(first(str1, 2),raw(Iv),lit(str2));raw(@gmail.com)&str1=Ivan&str1=Petar&str1=Radooo&str1=Ivo&str2=Millenium&str2=Falcon",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"app",
+																"v1",
+																"email",
+																"generate"
+															],
+															"query": [
+																{
+																	"key": "expression",
+																	"value": "boom(str1, 3);eq(first(str1, 2),raw(Iv),lit(str2));raw(@gmail.com)"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivan"
+																},
+																{
+																	"key": "str1",
+																	"value": "Petar"
+																},
+																{
+																	"key": "str1",
+																	"value": "Radooo"
+																},
+																{
+																	"key": "str1",
+																	"value": "Ivo"
+																},
+																{
+																	"key": "str2",
+																	"value": "Millenium"
+																},
+																{
+																	"key": "str2",
+																	"value": "Falcon"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Server",
+															"value": "nginx/1.25.5"
+														},
+														{
+															"key": "Date",
+															"value": "Mon, 06 May 2024 18:08:14 GMT"
+														},
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														},
+														{
+															"key": "Transfer-Encoding",
+															"value": "chunked"
+														},
+														{
+															"key": "Connection",
+															"value": "keep-alive"
+														},
+														{
+															"key": "Strict-Transport-Security",
+															"value": "max-age=31536000; includeSubDomains"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"data\": null,\n    \"message\": \"Unknown expression: boom(str1, 3)\"\n}"
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:9443"
+		}
+	]
+}
