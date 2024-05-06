@@ -45,8 +45,8 @@ public abstract class EmailApi {
 			parameters =
 			@Parameter(name = "queryParams", description = "A map, that allows multiple values for one input name, of query parameters for email generation. For example, multiple 'strN' parameters can be 'str1=Ivan,Petar,Rado' and 'str2=gmail,yahoo'.",
 					examples = {
-							@ExampleObject(name = "Example simple input", value = "{\"str1\":[\"Ivan\",\"Petar\",\"Rado\"],\"str2\":[\"gmail\",\"yahoo\"],\"expression\":[\"first(str1, 3);raw(@);last(str2,4);raw(.com)\"]}", description = "As query parameters: '?expression=first(str1, 3);raw(@);last(str2,4);raw(.com)&str1=Ivan&str1=Petar&str1=Rado&str2=gmail&str2=yahoo'"),
-							@ExampleObject(name = "Example conditional expression", value = "{\"expression\":[\"longer(lit(str1),lit(str2),lit(str3));first(str1, 3);raw(@);last(str2,4);raw(.com);eq(lit(str1),lit(str2),raw(.bg))\"],\"str1\":[\"Ivan\",\"Petar\",\"Radooo\"],\"str2\":[\"gmail\",\"yahoo\"],\"str3\":[\"test\",\"domain\"]}", description = "As query parameters: '?expression=longer(lit(str1),lit(str2),lit(str3));first(str1, 3);raw(@);last(str2,4);raw(.com);eq(lit(str1),lit(str2),raw(.bg))&str1=Ivan&str1=Petar&str1=Radooo&str2=gmail&str2=yahoo&str3=test&str3=domain'")
+							@ExampleObject(name = "Example simple input", value = "{\"str1\":[\"Ivan\",\"Petar\",\"Rado\"],\"str2\":[\"gmail\",\"yahoo\"],\"expression\":[\"first(str1, 3);raw(@);last(str2,4);raw(.com)\"]}", description = "A simple example without conditional expressions"),
+							@ExampleObject(name = "Example conditional expression", value = "{\"expression\":[\"longer(lit(str1),lit(str2),lit(str3));first(str1, 3);raw(@);last(str2,4);raw(.com);eq(lit(str1),lit(str2),raw(.bg))\"],\"str1\":[\"Ivan\",\"Petar\",\"Radooo\"],\"str2\":[\"gmail\",\"yahoo\"],\"str3\":[\"test\",\"domain\"]}", description = "An advanced example with conditional expressions")
 					},
 					required = true)
 	)

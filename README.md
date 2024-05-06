@@ -46,7 +46,39 @@ In both cases you will end up with a **.crt** and **.key** file in the **\nginx\
 Note that they are referenced in [docker-compose.yml](docker-compose.yml) and [nginx.conf](nginx/nginx.conf) and must be
 updated in both places if a name/location change occurs.
 
-### Running the docker-compose bundle locally
+### Nginx Reverse Proxy Configuration
+
+All the nginx-related configurations can be found under [/nginx](/nginx).
+This includes certificates, custom error pages, helper scripts and most importantly - [nginx.conf](nginx/nginx.conf).
+
+The important aspects of the proxy configuration are:
+
+* SSL certificate locations (referenced in [docker-compose](/docker-compose.yml))
+   ```nginx configuration
+   ssl_certificate /etc/nginx/certs/nginx.crt;
+   ssl_certificate_key /etc/nginx/certs/nginx.key;
+   ```
+* Error page config (referenced in [docker-compose](/docker-compose.yml))
+    ```nginx configuration
+     # Capture unexpected errors gracefully
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+    ```
+* ```location``` configs - the configuration is strict, only exposing the endpoints that are relevant for operation,
+  preventing external users from hitting different service locations
+    * ```location /app``` - api prefix
+    * ```location /swagger-ui``` - needed for swagger ui
+    * ```location /v3``` - needed for swagger ui
+
+Note: Nginx is exposed on port ```9443```, but listening on ```443``` internally, and if this has to be
+changed, [docker-compose](/docker-compose.yml) has to be
+updated to reflect the change, also [nginx.conf](nginx/nginx.conf) location objects must be updated with the new port,
+namely ```proxy_set_header X-Forwarded-Port 9443;```
+
+### Running the docker-compose Bundle Locally
 
 To run the configuration described inside the [docker.compose.yml](docker-compose.yml), you must
 have [Docker](https://docs.docker.com/engine/install/) installed on your system.
@@ -60,22 +92,19 @@ After installing Docker:
 
 1. Open a CMD window
 2. Navigate to the project root directory
-3. Make sure you don't have an old dangling image of the service:
-    * ```docker image prune -f```
-4. Run the compose file, recreating any containers and forcing a rebuild
+3. Run the compose file, recreating any containers and forcing a rebuild
     * ```docker-compose up --force-recreate --no-deps --build```
-5. Clean up dangling containers (if any) produced by the previous command
+4. Clean up dangling containers (if any) produced by the previous command
     * ```docker image prune -f```
 
 This will build the new service Docker image described in the [Dockerfile](Dockerfile), run it, and pull and run the
-Nginx image serving as a proxy.
+Nginx image serving as a reverse proxy.
 
-Verify that you can hit the API swagger page at https://localhost:9443/ (you will be redirected to the swagger page
-don't worry)
+Verify that you can hit the API swagger page at https://localhost:9443/swagger-ui/index.html
 
 ## Custom Expression Language
 
-Assume inputs provided:
+Assume inputs:
 
 ```
 str1=Ivan
@@ -177,3 +206,6 @@ curl -X 'GET' \
   'http://localhost:8080/app/v1/email/generate?expression=longer(lit(str1),lit(str2),lit(str3));first(str1, 3);raw(@);last(str2,4);raw(.com);eq(lit(str1),lit(str2),raw(.bg))&str1=Ivan&str1=Petar&str1=Radooo&str2=gmail&str2=yahoo&str3=test&str3=domain' \
   -H 'accept: application/json'
 ```
+
+## Extending the Custom Expression Language
+(TODO)
