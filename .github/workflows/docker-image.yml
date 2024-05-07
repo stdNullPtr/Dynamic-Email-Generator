@@ -34,10 +34,20 @@ jobs:
         with:
           name: java-artifacts
           path: target/
+
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag email-generator-service:$(date +%s)
+      - name: Generate self-signed certificates for reverse proxy
+        run: |
+          mkdir -p nginx/certs
+          openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/nginx.key -out nginx/certs/nginx.crt -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.localhost.com"
+
       - name: Run Docker Compose
         run: docker-compose up -d
+      - name: Sleep for 15 seconds to allow service to start
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '15s'
       - name: Check running containers
         run: docker ps -a
       - name: Check service logs
