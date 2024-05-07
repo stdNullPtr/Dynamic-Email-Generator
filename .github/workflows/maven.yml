@@ -24,6 +24,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B package --file pom.xml
       - name: Build and run Docker containers
-        run: docker-compose -f path/to/your/docker-compose.yml up --build --detach
+        run: docker-compose -f docker-compose.yml up --build --detach
       - name: Stop Docker containers
-        run: docker-compose -f path/to/your/docker-compose.yml down
+        run: docker-compose -f docker-compose.yml down
