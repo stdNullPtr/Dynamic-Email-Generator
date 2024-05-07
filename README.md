@@ -1,7 +1,5 @@
 # Dynamic Email Generator
 
-# Contents
-
 1. [Introduction](#introduction)
 2. [Technologies Used](#technologies-used)
 3. [Setup Instructions](#setup-instructions)
@@ -49,16 +47,16 @@ add it to PATH.
 After installing OpenSSL (and placing it on your [PATH](https://www.java.com/en/download/help/path.html)) you have 2
 options:
 
-1. Navigate to <project root>\nginx
+1. Navigate to [\nginx](nginx)
 2. Open a CMD window in that location
-3. Run ```.\create_certs.bat```
-   ![create_certs script example](img/create_certs.png)
+3. Run the helper script [create_certs.bat](nginx/create_certs.bat)  
+![create_certs script example](img/create_certs.png)
 
 Or manually:
 
 1. Open a CMD window
-2. Navigate to the "**\nginx**" folder in project root directory
-3. Create a "**\certs**" directory, run ```mkdir certs```
+2. Navigate to the [\nginx](nginx) folder in project root directory
+3. Create a **\certs** directory if not present: run ```mkdir certs```
 4. To generate a self-signed certificate
    run ```openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout certs/nginx.key -out certs/nginx.crt -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.localhost.com"```
 
@@ -69,7 +67,7 @@ updated in both places if a name/location change occurs.
 
 ### Nginx Reverse Proxy Configuration
 
-All the nginx-related configurations can be found under [/nginx](/nginx).
+All the nginx-related configurations can be found under [\nginx](nginx).
 This includes certificates, custom error pages, helper scripts and most importantly - [nginx.conf](nginx/nginx.conf).
 
 The important aspects of the proxy configuration are:
@@ -89,7 +87,7 @@ The important aspects of the proxy configuration are:
     }
     ```
 * ```location``` configs - the configuration is strict, only exposing the endpoints that are relevant for operation,
-  preventing external users from hitting different service locations
+  preventing external users from malicious attempts
     * ```location /app``` - api prefix
     * ```location /swagger-ui``` - needed for swagger ui
     * ```location /v3``` - needed for swagger ui
@@ -154,9 +152,11 @@ in [/postman](/postman/Dynamic%20Email%20Generator.postman_collection.json) fold
 To import the collection:
 
 1. Open Postman
-2. Click on "import" on the left ![postman_import](img/postman_import.png)
+2. Click on "import" on the left  
+![postman_import](img/postman_import.png)
 3. Drag and drop the collection from [/postman](/postman/Dynamic%20Email%20Generator.postman_collection.json) directory
-4. Explore the stored requests ![postman_requests](img/postman_collection.png)
+4. Explore the stored requests  
+![postman_requests](img/postman_collection.png)
 
 ### Generate Emails
 
@@ -253,8 +253,7 @@ class SomeNewExpression implements Expression {
 	@Override
 	public String interpret(Context ctx) {
 		String input = ctx.getValue(inputKey);
-		String result = doSomeNewStringManipulation(input);
-		return result;
+		return doSomeNewStringManipulation(input);
 	}
 }
 ```
@@ -284,12 +283,12 @@ As you can see new expressions can be defined incredibly easy, you just have to 
 
 1. Define a new expression method keyword, for example ```len()```
 2. Create a new enum entry for the new expression keyword
-   in [Operations](src/main/java/com/stdnullptr/emailgenerator/service/interpreter/Operations.java) enum
+   in [Operations](src/main/java/com/stdnullptr/emailgenerator/interpreter/Operations.java) enum
     * ```LEN("len")```
-3. Create a new Expression class in the [interpreter](src/main/java/com/stdnullptr/emailgenerator/service/interpreter)
+3. Create a new Expression class in the [interpreter](src/main/java/com/stdnullptr/emailgenerator/interpreter)
    package
 4. Add a new case in the operation switch
-   inside [InterpreterService](src/main/java/com/stdnullptr/emailgenerator/service/interpreter/InterpreterService.java)
+   inside [Interpreter](src/main/java/com/stdnullptr/emailgenerator/interpreter/Interpreter.java) class
    instantiating a new Expression from the newly created Expression class
 5. Add proper tests, update documentation,
    update [postman](/postman/Dynamic%20Email%20Generator.postman_collection.json) collection

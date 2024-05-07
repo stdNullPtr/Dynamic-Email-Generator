@@ -3,8 +3,6 @@ FROM eclipse-temurin:latest
 
 VOLUME /tmp
 
-EXPOSE 8080
-
 COPY target/*.jar /app/app.jar
 
 # Create run user and set ownership to /app

@@ -1,8 +1,8 @@
 package com.stdnullptr.emailgenerator.service;
 
 import com.stdnullptr.emailgenerator.exception.InvalidArgumentException;
-import com.stdnullptr.emailgenerator.service.interpreter.Context;
-import com.stdnullptr.emailgenerator.service.interpreter.InterpreterService;
+import com.stdnullptr.emailgenerator.interpreter.Context;
+import com.stdnullptr.emailgenerator.interpreter.Interpreter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,8 +17,6 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class EmailGeneratorService {
-    private final InterpreterService interpreterService;
-
     public List<String> generateEmails(MultiValueMap<String, String> inputs) {
         log.info("Generating emails for input {}", inputs);
 
@@ -45,20 +43,20 @@ public class EmailGeneratorService {
         return parseExpression(inputs, expression);
     }
 
-    private List<String> parseExpression(MultiValueMap<String, String> inputs, String expression) {
+    public List<String> parseExpression(MultiValueMap<String, String> inputs, String expression) {
         List<String> results = new ArrayList<>();
 
         List<Context> allContexts = prepareContexts(inputs);
 
         for (Context context : allContexts) {
-            String evaluatedExpression = interpreterService.evaluate(expression, context);
+            String evaluatedExpression = Interpreter.evaluate(expression, context);
             results.add(evaluatedExpression);
         }
 
         return results;
     }
 
-    private List<Context> prepareContexts(MultiValueMap<String, String> inputs) {
+    public List<Context> prepareContexts(MultiValueMap<String, String> inputs) {
         List<Context> contexts = new ArrayList<>();
 
         List<HashMap<String, String>> results = new ArrayList<>();
@@ -72,7 +70,7 @@ public class EmailGeneratorService {
     /***
      * TODO Potential issues with recursion, but it is way cleaner than iterative approach
      */
-    private static void recursiveFlattenMultiValueMap(List<String> keys, HashMap<String, String> current, MultiValueMap<String, String> originalInputs, List<HashMap<String, String>> results, int depth) {
+    public void recursiveFlattenMultiValueMap(List<String> keys, HashMap<String, String> current, MultiValueMap<String, String> originalInputs, List<HashMap<String, String>> results, int depth) {
         if (depth == keys.size()) {
             results.add(new HashMap<>(current));
             return;

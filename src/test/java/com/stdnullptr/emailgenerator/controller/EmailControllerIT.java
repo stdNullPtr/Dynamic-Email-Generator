@@ -4,14 +4,11 @@ import com.stdnullptr.emailgenerator.exception.GlobalExceptionHandler;
 import com.stdnullptr.emailgenerator.exception.InterpreterException;
 import com.stdnullptr.emailgenerator.exception.InvalidArgumentException;
 import com.stdnullptr.emailgenerator.service.EmailGeneratorService;
-import com.stdnullptr.emailgenerator.service.interpreter.InterpreterService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,16 +31,11 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * The purpose of this integration test class is to test every exception handled in {@link GlobalExceptionHandler}
- */
-@ContextConfiguration(classes = {EmailController.class, EmailGeneratorService.class, GlobalExceptionHandler.class, InterpreterService.class})
+@ContextConfiguration(classes = {EmailController.class, EmailGeneratorService.class, GlobalExceptionHandler.class})
 @ExtendWith(SpringExtension.class)
 class EmailControllerIT {
 
     private MockMvc controllerMockMvc;
-
-    private AutoCloseable mocksCloseable;
 
     @Autowired
     private EmailController emailController;
@@ -53,17 +45,11 @@ class EmailControllerIT {
 
     @BeforeEach
     void setUp() {
-        mocksCloseable = MockitoAnnotations.openMocks(this);
         controllerMockMvc = MockMvcBuilders.standaloneSetup(emailController).setControllerAdvice(globalExceptionHandler).build();
     }
 
-    @AfterEach
-    void tearDown() throws Exception {
-        mocksCloseable.close();
-    }
-
     @Test
-    void testGenerateEmails_missingQueryParams_shouldReturnBadRequest() throws Exception {
+    void generateEmails_missingQueryParams_shouldReturnBadRequest() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/app/v1/email/generate");
 
@@ -75,9 +61,12 @@ class EmailControllerIT {
                 .andExpect(jsonPath("$.message").value("Invalid request argument(s): {queryParams=[Query parameters cannot be empty]}"));
     }
 
+    /**
+     * The purpose of this integration test is to test every {@link InvalidArgumentException} handled in {@link GlobalExceptionHandler}
+     */
     @ParameterizedTest
-    @MethodSource("com.stdnullptr.emailgenerator.util.Utils$TestParamsProvider#invalidArgumentQueryParamsProvider")
-    void testGenerateEmails_InvalidArgumentException_shouldReturnBadRequest(Map<String, MultiValueMap<String, String>> testParams) throws Exception {
+    @MethodSource("com.stdnullptr.emailgenerator.util.TestData#invalidArgumentQueryParamsProvider")
+    void generateEmails_InvalidArgumentException_shouldReturnBadRequest(Map<String, MultiValueMap<String, String>> testParams) throws Exception {
         MultiValueMap<String, String> queryParams = testParams.values().stream().findFirst().orElseThrow();
         String expectedErrorMessage = testParams.keySet().stream().findFirst().get();
 
@@ -93,9 +82,12 @@ class EmailControllerIT {
                 .andExpect(jsonPath("$.message").value(expectedErrorMessage));
     }
 
+    /**
+     * The purpose of this integration test is to test every {@link InterpreterException} handled in {@link GlobalExceptionHandler}
+     */
     @ParameterizedTest
-    @MethodSource("com.stdnullptr.emailgenerator.util.Utils$TestParamsProvider#interpreterErrorQueryParamsProvider")
-    void testGenerateEmails_interpreterException_shouldReturnBadRequest(Map<String, MultiValueMap<String, String>> testParams) throws Exception {
+    @MethodSource("com.stdnullptr.emailgenerator.util.TestData#interpreterErrorQueryParamsProvider")
+    void generateEmails_interpreterException_shouldReturnBadRequest(Map<String, MultiValueMap<String, String>> testParams) throws Exception {
         MultiValueMap<String, String> queryParams = testParams.values().stream().findFirst().orElseThrow();
         String expectedErrorMessage = testParams.keySet().stream().findFirst().get();
 
@@ -112,7 +104,7 @@ class EmailControllerIT {
     }
 
     @Test
-    void testGenerateEmails_success_shouldReturnOk() throws Exception {
+    void generateEmails_success_shouldReturnOk() throws Exception {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("str1", "Ivan");
         queryParams.add("str1", "Nikola");
