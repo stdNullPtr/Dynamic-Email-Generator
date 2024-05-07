@@ -1,4 +1,4 @@
-# Dynamic Email Generator
+# Dynamic Email Generator [![Docker Image CI](https://github.com/stdNullPtr/Dynamic-Email-Generator/actions/workflows/docker-image.yml/badge.svg)](https://github.com/stdNullPtr/Dynamic-Email-Generator/actions/workflows/docker-image.yml)
 
 1. [Introduction](#introduction)
 2. [Technologies Used](#technologies-used)
