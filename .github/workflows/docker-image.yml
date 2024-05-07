@@ -19,10 +19,20 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-artifacts
+          path: target/email-generator.jar
   build_docker:
      runs-on: ubuntu-latest
      needs: build_maven
      steps:
       - uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: java-artifacts
+          path: target/
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag email-generator-service:$(date +%s)
