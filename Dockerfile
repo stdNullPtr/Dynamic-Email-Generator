@@ -1,7 +1,7 @@
 # TODO agree on a stable version
 FROM eclipse-temurin:latest
 
-VOLUME /tmp
+WORKDIR /app
 
 COPY target/email-generator.jar /app/app.jar
 
