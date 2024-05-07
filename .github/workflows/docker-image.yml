@@ -36,3 +36,5 @@ jobs:
           path: target/
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag email-generator-service:$(date +%s)
+      - name: Run Docker Compose
+        run: docker-compose up -d
