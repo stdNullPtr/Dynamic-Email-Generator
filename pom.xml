@@ -12,7 +12,7 @@
 
     <groupId>com.stdnullptr</groupId>
     <artifactId>Dynamic-Email-Generator</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Dynamic-Email-Generator</name>
     <description>Dynamic-Email-Generator</description>
 
@@ -76,6 +76,7 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>email-generator</finalName>
     </build>
 
 </project>

@@ -1,9 +1,9 @@
 # TODO agree on a stable version
 FROM eclipse-temurin:latest
 
-VOLUME /tmp
+WORKDIR /app
 
-COPY target/*.jar /app/app.jar
+COPY target/email-generator.jar /app/app.jar
 
 # Create run user and set ownership to /app
 RUN groupadd -g 1001 javauser && useradd --home-dir /app --uid 1001 --gid 1001 --shell /bin/bash javauser

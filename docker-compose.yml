@@ -3,6 +3,7 @@ services:
   email-generator-service:
     image: email-generator-service
     build:
+      context: .
       dockerfile: Dockerfile
     networks:
       - service-network
