@@ -76,6 +76,7 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>email-generator</finalName>
     </build>
 
 </project>
