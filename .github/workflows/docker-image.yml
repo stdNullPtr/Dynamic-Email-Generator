@@ -47,7 +47,7 @@ jobs:
       - name: Sleep for 15 seconds to allow service to start
         uses: jakejarvis/wait-action@master
         with:
-          time: '15s'
+          time: '5s'
 
       - name: Call API Endpoint
         run: |
@@ -56,7 +56,7 @@ jobs:
       - name: Sleep for 5 seconds to allow api request processing
         uses: jakejarvis/wait-action@master
         with:
-          time: '5'
+          time: '2'
       - name: Check running containers
         run: docker ps -a
       - name: Check service logs
