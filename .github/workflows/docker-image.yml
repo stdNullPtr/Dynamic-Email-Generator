@@ -44,7 +44,7 @@ jobs:
 
       - name: Run Docker Compose
         run: docker-compose up -d
-      - name: Sleep for 15 seconds to allow service to start
+      - name: Sleep to allow service to start
         uses: jakejarvis/wait-action@master
         with:
           time: '5s'
@@ -53,7 +53,7 @@ jobs:
         run: |
           curl -k -X GET \
             "https://localhost:9443/app/v1/email/generate?expression=first(str1,1);raw(.);lit(str2);raw(@gmail.com)&str1=Ivan&str2=Petrov&str2=Ivanov"
-      - name: Sleep for 5 seconds to allow api request processing
+      - name: Sleep to allow api request processing
         uses: jakejarvis/wait-action@master
         with:
           time: '2'
