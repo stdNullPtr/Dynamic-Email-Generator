@@ -40,5 +40,7 @@ jobs:
         run: docker-compose up -d
       - name: Check running containers
         run: docker ps -a
-      - name: Check logs
-        run: docker logs backend
+      - name: Check service logs
+        run: docker logs email-generator-service
+      - name: Check nginx logs
+        run: docker logs nginx
