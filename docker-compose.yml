@@ -4,9 +4,6 @@ services:
     image: email-generator-service
     build:
       dockerfile: Dockerfile
-    ports:
-      # TODO do not expose this service to the outside world for production builds
-      - "8080:8080"
     networks:
       - service-network
 

@@ -1,4 +1,4 @@
-package com.stdnullptr.emailgenerator.service.interpreter;
+package com.stdnullptr.emailgenerator.interpreter;
 
 import com.stdnullptr.emailgenerator.exception.InterpreterException;
 import lombok.RequiredArgsConstructor;
