@@ -1,0 +1,18 @@
+name: Docker Compose Test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  docker_compose_test:
+    runs-on: ubuntu-latest
+    needs: build_maven
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and run Docker containers
+        run: docker-compose -f docker-compose.yml up --build --detach
+      - name: Stop Docker containers
+        run: docker-compose -f docker-compose.yml down
