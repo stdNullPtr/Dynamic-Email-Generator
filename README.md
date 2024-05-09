@@ -112,7 +112,7 @@ After installing Docker:
 1. Open a CMD window
 2. Navigate to the project root directory
 3. Run the compose file, recreating any containers and forcing a rebuild
-    * ```docker-compose up --force-recreate --no-deps --build```
+    * ```docker-compose --env-file ./.dev-env up --force-recreate --no-deps --build```
 4. Clean up dangling containers (if any) produced by the previous command
     * ```docker image prune -f```
 

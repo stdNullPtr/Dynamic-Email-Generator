@@ -37,13 +37,25 @@ jobs:
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag email-generator-service:$(date +%s)
+
       - name: Generate self-signed certificates for reverse proxy
         run: |
           mkdir -p nginx/certs
           openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/nginx.key -out nginx/certs/nginx.crt -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.localhost.com"
+      - name: Generate keystore for the Spring Boot service
+        run: |
+          mkdir -p keystore
+          keytool -genkeypair -alias api \
+          -keyalg RSA -keysize 2048 \
+          -storetype PKCS12 \
+          -keystore keystore/springboot.p12 \
+          -validity 365 \
+          -storepass 123456 \
+          -keypass 123456 \
+          -dname "CN=www.localhost.com, OU=Denial, O=Dis, L=Springfield, S=Denial, C=US"
 
       - name: Run Docker Compose
-        run: docker-compose up -d
+        run: docker-compose --env-file ./.dev-env up -d
       - name: Sleep to allow service to start
         uses: jakejarvis/wait-action@master
         with:

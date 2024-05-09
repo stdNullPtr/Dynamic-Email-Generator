@@ -5,6 +5,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - ./tls/keystore:/tls/keystore
+    environment:
+      - KEYSTORE_PATH=${KEYSTORE_PATH}
+      - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD}
     networks:
       - service-network
 
