@@ -4,6 +4,8 @@
 2. [Technologies Used](#technologies-used)
 3. [Setup Instructions](#setup-instructions)
     - [Certificates](#certificates)
+        - [Nginx](#nginx)
+        - [Spring Service](#spring-service)
     - [Nginx Reverse Proxy Configuration](#nginx-reverse-proxy-configuration)
     - [Running the docker-compose Bundle Locally](#running-the-docker-compose-bundle-locally)
 4. [Custom Expression Language](#custom-expression-language)
@@ -39,6 +41,8 @@ Note: The following instructions were written and tested on a _Windows 10_ syste
 
 ### Certificates
 
+#### Nginx
+
 To create the self-signed certificates needed for the Nginx reverse proxy configuration, you must
 have [OpenSSL](https://github.com/openssl/openssl) installed on your system.
 You most likely already have it in you git installation folder ```("C:\Program Files\Git\usr\bin\openssl.exe")``` just
@@ -50,7 +54,7 @@ options:
 1. Navigate to [\nginx](nginx)
 2. Open a CMD window in that location
 3. Run the helper script [create_certs.bat](nginx/create_certs.bat)  
-![create_certs script example](img/create_certs.png)
+   ![create_certs script example](img/create_certs.png)
 
 Or manually:
 
@@ -64,6 +68,26 @@ In both cases you will end up with a **.crt** and **.key** file in the **\nginx\
 
 Note that they are referenced in [docker-compose.yml](docker-compose.yml) and [nginx.conf](nginx/nginx.conf) and must be
 updated in both places if a name/location change occurs.
+
+**NOTE: The generated self-signed certificate is for development/testing purposes.**
+
+#### Spring Service
+
+To create self-signed certificates and a keystore for the service, you can use `keytool` command that comes with the
+JDK. To create a default certificate that is used in the default environment setup described in this documentation - you
+can use the provided [create_default_keystore.bat](tls/create_default_keystore.bat) script inside the [/tls](/tls)
+folder.
+
+To use the helper script:
+
+1. Navigate to [/tls](tls) directory
+2. Open a CMD window at that location
+3. Run the helper script [create_default_keystore.bat](tls/create_default_keystore.bat)  
+   ![create_keystore script example](img/create_keystore.png)
+4. You should end up with a new directory inside [/tls](tls) and a keystore file inside  
+   ![keystore example](img/dev-keystore.png)
+
+**NOTE: The generated self-signed certificate is for development/testing purposes.**
 
 ### Nginx Reverse Proxy Configuration
 
@@ -102,6 +126,9 @@ namely ```proxy_set_header X-Forwarded-Port 9443;```
 To run the configuration described inside the [docker.compose.yml](docker-compose.yml), you must
 have [Docker](https://docs.docker.com/engine/install/) installed on your system.
 
+Note: there is a [.dev-env](.dev-env) environment file that holds a default keystore path and password needed for the
+Spring service SSL config. It must be passed to the `docker compose` command as described below.
+
 Build the project before creating a Docker image:
 
 1. Run a ```mvn clean verify``` on the project
@@ -112,7 +139,7 @@ After installing Docker:
 1. Open a CMD window
 2. Navigate to the project root directory
 3. Run the compose file, recreating any containers and forcing a rebuild
-    * ```docker-compose up --force-recreate --no-deps --build```
+    * ```docker-compose --env-file ./.dev-env up --force-recreate --no-deps --build```
 4. Clean up dangling containers (if any) produced by the previous command
     * ```docker image prune -f```
 
@@ -153,10 +180,10 @@ To import the collection:
 
 1. Open Postman
 2. Click on "import" on the left  
-![postman_import](img/postman_import.png)
+   ![postman_import](img/postman_import.png)
 3. Drag and drop the collection from [/postman](/postman/Dynamic%20Email%20Generator.postman_collection.json) directory
 4. Explore the stored requests  
-![postman_requests](img/postman_collection.png)
+   ![postman_requests](img/postman_collection.png)
 
 ### Generate Emails
 

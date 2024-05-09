@@ -1,0 +1,2 @@
+KEYSTORE_PATH=/tls/keystore/springboot.p12
+KEYSTORE_PASSWORD=123456
