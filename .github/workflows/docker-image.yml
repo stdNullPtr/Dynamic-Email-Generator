@@ -44,11 +44,11 @@ jobs:
           openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/certs/nginx.key -out nginx/certs/nginx.crt -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.localhost.com"
       - name: Generate keystore for the Spring Boot service
         run: |
-          mkdir -p keystore
+          mkdir -p tls/keystore
           keytool -genkeypair -alias api \
           -keyalg RSA -keysize 2048 \
           -storetype PKCS12 \
-          -keystore keystore/springboot.p12 \
+          -keystore tls/keystore/springboot.p12 \
           -validity 365 \
           -storepass 123456 \
           -keypass 123456 \
